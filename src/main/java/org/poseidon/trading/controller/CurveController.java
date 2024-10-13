@@ -3,23 +3,26 @@ package org.poseidon.trading.controller;
 
 import jakarta.validation.Valid;
 import org.poseidon.trading.domain.CurvePoint;
+import org.poseidon.trading.service.impl.CurvePointServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 
 @Controller
 public class CurveController {
-    // TODO: Inject Curve Point service
+
+    private final CurvePointServiceImpl curvePointService;
+
+    public CurveController(CurvePointServiceImpl curvePointService) {
+        this.curvePointService = curvePointService;
+    }
 
     @RequestMapping("/curvePoint/list")
     public String home(Model model)
     {
-        // TODO: find all Curve Point, add to model
+        model.addAttribute("curvePoints", curvePointService.findAll());
         return "curvePoint/list";
     }
 
@@ -29,27 +32,29 @@ public class CurveController {
     }
 
     @PostMapping("/curvePoint/validate")
-    public String validate(@Valid CurvePoint curvePoint, BindingResult result, Model model) {
-        // TODO: check data valid and save to db, after saving return Curve list
+    public String validate(@Valid @ModelAttribute("curvePoint") CurvePoint curvePoint, BindingResult result, Model model) {
+        curvePointService.add(curvePoint);
         return "curvePoint/add";
     }
 
     @GetMapping("/curvePoint/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-        // TODO: get CurvePoint by Id and to model then show to the form
+        model.addAttribute("curvePoint", curvePointService.findById(id));
         return "curvePoint/update";
     }
 
     @PostMapping("/curvePoint/update/{id}")
-    public String updateBid(@PathVariable("id") Integer id, @Valid CurvePoint curvePoint,
+    public String updateBid(@PathVariable("id") Integer id, @Valid @ModelAttribute("curvePoint") CurvePoint curvePoint,
                              BindingResult result, Model model) {
-        // TODO: check required fields, if valid call service to update Curve and return Curve list
+
+        curvePointService.update(id, curvePoint);
+
         return "redirect:/curvePoint/list";
     }
 
     @GetMapping("/curvePoint/delete/{id}")
     public String deleteBid(@PathVariable("id") Integer id, Model model) {
-        // TODO: Find Curve by Id and delete the Curve, return to Curve list
+       curvePointService.delete(id);
         return "redirect:/curvePoint/list";
     }
 }
