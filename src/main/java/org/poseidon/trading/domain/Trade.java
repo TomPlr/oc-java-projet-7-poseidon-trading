@@ -1,6 +1,7 @@
 package org.poseidon.trading.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,20 +10,23 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @Entity
-@Table(name = "trade")
+@Table(name = "Trade")
 public class Trade {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "TradeId", nullable = false)
-    private Integer tradeId;
+    private Integer id;
 
     @Column(name = "account", nullable = false, length = 30)
+    @NotNull
     private String account;
 
     @Column(name = "type", nullable = false, length = 30)
+    @NotNull
     private String type;
 
     @Column(name = "buyQuantity")
+    @NotNull
     private Double buyQuantity;
 
     @Column(name = "sellQuantity")
