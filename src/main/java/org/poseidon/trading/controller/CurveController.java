@@ -20,8 +20,7 @@ public class CurveController {
     }
 
     @RequestMapping("/curvePoint/list")
-    public String home(Model model)
-    {
+    public String home(Model model) {
         model.addAttribute("curvePoints", curvePointService.findAll());
         return "curvePoint/list";
     }
@@ -45,7 +44,7 @@ public class CurveController {
 
     @PostMapping("/curvePoint/update/{id}")
     public String updateBid(@PathVariable("id") Integer id, @Valid @ModelAttribute("curvePoint") CurvePoint curvePoint,
-                             BindingResult result, Model model) {
+                            BindingResult result, Model model) {
 
         curvePointService.update(id, curvePoint);
 
@@ -54,7 +53,7 @@ public class CurveController {
 
     @GetMapping("/curvePoint/delete/{id}")
     public String deleteBid(@PathVariable("id") Integer id, Model model) {
-       curvePointService.delete(id);
+        curvePointService.delete(id);
         return "redirect:/curvePoint/list";
     }
 }
