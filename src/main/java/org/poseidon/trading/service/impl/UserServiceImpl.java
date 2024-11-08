@@ -6,6 +6,8 @@ import org.poseidon.trading.domain.User;
 import org.poseidon.trading.model.UserModel;
 import org.poseidon.trading.repositories.UserRepository;
 import org.poseidon.trading.service.UserService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,6 +41,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserModel update(User user) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         //TODO: Replace DB call by getting the user authenticated
         User updatedUser = userRepository.findById(user.getId()).orElseThrow(EntityNotFoundException::new);

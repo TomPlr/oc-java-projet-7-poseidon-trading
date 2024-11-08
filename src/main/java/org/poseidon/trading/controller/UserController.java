@@ -16,11 +16,9 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class UserController {
 
-    private final UserRepository userRepository;
     private final UserService userService;
 
     public UserController(final UserRepository userRepository, final UserService userService) {
-        this.userRepository = userRepository;
         this.userService = userService;
     }
 
@@ -41,7 +39,7 @@ public class UserController {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             user.setPassword(encoder.encode(user.getPassword()));
 
-            userService.update(user);
+            userService.add(user);
 
             model.addAttribute("users", userService.findAll());
             return "redirect:/user/list";
@@ -52,13 +50,21 @@ public class UserController {
     @GetMapping("/user/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
         UserModel userModel = userService.findById(id);
-        model.addAttribute("user", userModel);
+
+        User user = new User();
+        user.setId(id);
+        user.setPassword("");
+        user.setUsername(userModel.username());
+        user.setFullname(userModel.fullname());
+        user.setRole(userModel.role());
+
+        model.addAttribute("user", user);
 
         return "user/update";
     }
 
     @PostMapping("/user/update/{id}")
-    public String updateUser(@PathVariable("id") Integer id, @Valid User user,
+    public String updateUser(@Valid @ModelAttribute("user") User user,
                              BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "user/update";
@@ -69,7 +75,7 @@ public class UserController {
 
         userService.update(user);
 
-        model.addAttribute("users", userService.findAll());
+        model.addAttribute("user", userService.findAll());
         return "redirect:/user/list";
     }
 
@@ -77,7 +83,7 @@ public class UserController {
     public String deleteUser(@PathVariable("id") Integer id, Model model) {
         userService.delete(id);
 
-        model.addAttribute("users", userRepository.findAll());
+        model.addAttribute("users", userService.findAll());
         return "redirect:/user/list";
     }
 }

@@ -8,6 +8,6 @@ import org.springframework.stereotype.Component;
 public class UserAssembler {
 
     public UserModel toModel(User user) {
-        return new UserModel(user.getUsername(), user.getFullname(), user.getRole());
+        return new UserModel(user.getId(), user.getUsername(), user.getFullname(), user.getRole());
     }
 }

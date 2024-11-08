@@ -24,7 +24,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     /**
      * Loads user-specific data.
      *
-     * @param username the email of the user
+     * @param username the name of the user
      *
      * @return a UserDetails object that contains the user's data
      * @throws UsernameNotFoundException if the user is not found
@@ -46,7 +46,7 @@ public class CustomUserDetailsService implements UserDetailsService {
      */
     private List<GrantedAuthority> getGrantedAuthorities(String role) {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(role));
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
         return authorities;
     }
 }
