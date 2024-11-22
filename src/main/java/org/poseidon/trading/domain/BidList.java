@@ -18,15 +18,15 @@ public class BidList {
     private Integer id;
 
     @Column(name = "account", nullable = false, length = 30)
-    @NotBlank
+    @NotBlank(message= "This field is mandatory")
     private String account;
 
     @Column(name = "type", nullable = false, length = 30)
-    @NotBlank
+    @NotBlank(message= "This field is mandatory")
     private String type;
 
     @Column(name = "bidQuantity")
-    @NotNull
+    @NotNull(message="This field is mandatory")
     private Double bidQuantity;
 
     @Column(name = "askQuantity")

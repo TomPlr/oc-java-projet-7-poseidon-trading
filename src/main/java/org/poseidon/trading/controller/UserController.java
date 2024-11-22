@@ -1,7 +1,7 @@
 package org.poseidon.trading.controller;
 
 import jakarta.validation.Valid;
-
+import lombok.extern.slf4j.Slf4j;
 import org.poseidon.trading.domain.User;
 import org.poseidon.trading.model.UserModel;
 import org.poseidon.trading.repositories.UserRepository;
@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 
+@Slf4j
 @Controller
 public class UserController {
 
@@ -22,7 +23,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @RequestMapping("/user/list")
+    @GetMapping("/user/list")
     public String home(Model model) {
         model.addAttribute("users", userService.findAll());
         return "user/list";
@@ -35,16 +36,16 @@ public class UserController {
 
     @PostMapping("/user/validate")
     public String validate(@Valid @ModelAttribute("user") User user, BindingResult result, Model model) {
-        if (!result.hasErrors()) {
-            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-            user.setPassword(encoder.encode(user.getPassword()));
 
-            userService.add(user);
-
-            model.addAttribute("users", userService.findAll());
-            return "redirect:/user/list";
+        if (result.hasErrors()) {
+            return "user/add";
         }
-        return "user/add";
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        user.setPassword(encoder.encode(user.getPassword()));
+
+        userService.add(user);
+        return "redirect:/user/list";
     }
 
     @GetMapping("/user/update/{id}")
@@ -74,16 +75,12 @@ public class UserController {
         user.setPassword(encoder.encode(user.getPassword()));
 
         userService.update(user);
-
-        model.addAttribute("user", userService.findAll());
         return "redirect:/user/list";
     }
 
     @GetMapping("/user/delete/{id}")
     public String deleteUser(@PathVariable("id") Integer id, Model model) {
         userService.delete(id);
-
-        model.addAttribute("users", userService.findAll());
-        return "redirect:/user/list";
+        return "user/list";
     }
 }

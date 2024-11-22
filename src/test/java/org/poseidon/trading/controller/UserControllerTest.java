@@ -83,7 +83,7 @@ class UserControllerTest {
         String viewName = userController.validate(user, bindingResult, model);
 
         verify(userService).add(user);
-        assertThat(viewName).isEqualTo("redirect:/user/list");
+        assertThat(viewName).isEqualTo("user/list");
     }
 
     @Test
@@ -114,7 +114,7 @@ class UserControllerTest {
         when(bindingResult.hasErrors()).thenReturn(false);
         String viewName = userController.updateUser(user, bindingResult, model);
         verify(userService).update(user);
-        assertThat(viewName).isEqualTo("redirect:/user/list");
+        assertThat(viewName).isEqualTo("user/list");
     }
 
     @Test
@@ -131,6 +131,6 @@ class UserControllerTest {
         int id = 1;
         String viewName = userController.deleteUser(id, model);
         verify(userService).delete(id);
-        assertThat(viewName).isEqualTo("redirect:/user/list");
+        assertThat(viewName).isEqualTo("user/list");
     }
 }

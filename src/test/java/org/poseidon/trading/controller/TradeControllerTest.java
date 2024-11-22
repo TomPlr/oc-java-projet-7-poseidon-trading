@@ -70,7 +70,7 @@ class TradeControllerTest {
         Trade trade = new Trade();
         String viewName = tradeController.updateTrade(id, trade, bindingResult, model);
         verify(model).addAttribute("trade", trade);
-        assertThat(viewName).isEqualTo("redirect:/trade/list");
+        assertThat(viewName).isEqualTo("trade/list");
     }
 
     @Test
@@ -78,6 +78,6 @@ class TradeControllerTest {
         int id = 1;
         String viewName = tradeController.deleteTrade(id, model);
         verify(tradeService).delete(id);
-        assertThat(viewName).isEqualTo("redirect:/trade/list");
+        assertThat(viewName).isEqualTo("trade/list");
     }
 }

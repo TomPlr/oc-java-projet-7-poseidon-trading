@@ -27,12 +27,12 @@ public class CurvePoint {
 
     @Column(name = "term")
     @Min(value = 0)
-    @NotNull
+    @NotNull(message="This field is mandatory")
     private Double term;
 
     @Column(name = "value")
     @Min(value = 0)
-    @NotNull
+    @NotNull(message="This field is mandatory")
     private Double value;
 
     @Column(name = "creationDate")

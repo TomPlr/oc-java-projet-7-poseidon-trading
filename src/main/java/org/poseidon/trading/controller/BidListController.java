@@ -8,7 +8,10 @@ import org.poseidon.trading.service.impl.BidListServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Slf4j
 @Controller
@@ -20,7 +23,7 @@ public class BidListController {
         this.bidListService = bidListService;
     }
 
-    @GetMapping("/bidList/list" )
+    @GetMapping("/bidList/list")
     public String home(Model model) {
         model.addAttribute("bidLists", bidListService.findAll());
         return "bidList/list";
@@ -35,14 +38,12 @@ public class BidListController {
     @PostMapping("/bidList/validate")
     public String validate(@Valid @ModelAttribute("bidList") BidList bid, BindingResult result) {
 
-        try {
-            bidListService.add(bid);
-            return "redirect:/bidList/list";
-        } catch (Exception e) {
-           log.error(e.getMessage());
+        if (result.hasErrors()) {
+            return "bidList/add";
         }
 
-        return "redirect:/bidList/add";
+        bidListService.add(bid);
+        return "redirect:/bidList/list";
     }
 
     @GetMapping("/bidList/update/{id}")
@@ -56,11 +57,11 @@ public class BidListController {
     public String updateBid(@PathVariable("id") Integer id, @Valid @ModelAttribute("bidList") BidList bidList,
                             BindingResult result) {
 
-        try{
-            bidListService.update(id,bidList);
-        } catch (Exception e) {
-            log.error(e.getMessage());
+        if (result.hasErrors()) {
+            return "bidList/update";
         }
+
+        bidListService.update(id, bidList);
         return "redirect:/bidList/list";
     }
 
@@ -69,6 +70,6 @@ public class BidListController {
         bidListService.delete(id);
         model.addAttribute("bidLists", bidListService.findAll());
 
-        return "redirect:/bidList/list";
+        return "bidList/list";
     }
 }

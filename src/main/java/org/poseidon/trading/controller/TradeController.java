@@ -1,8 +1,8 @@
 package org.poseidon.trading.controller;
 
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.poseidon.trading.domain.Trade;
 import org.poseidon.trading.service.impl.TradeServiceImpl;
 import org.springframework.stereotype.Controller;
@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 
+@Slf4j
 @Controller
 public class TradeController {
 
@@ -33,8 +34,13 @@ public class TradeController {
 
     @PostMapping("/trade/validate")
     public String validate(@Valid @ModelAttribute("trade") Trade trade, BindingResult result, Model model) {
+
+        if (result.hasErrors()) {
+            return "trade/add";
+        }
+
         tradeService.add(trade);
-        return "trade/add";
+        return "redirect:/trade/list";
     }
 
     @GetMapping("/trade/update/{id}")
@@ -46,13 +52,17 @@ public class TradeController {
     @PostMapping("/trade/update/{id}")
     public String updateTrade(@PathVariable("id") Integer id, @Valid @ModelAttribute("trade") Trade trade,
                               BindingResult result, Model model) {
-        model.addAttribute("trade", trade);
+        if (result.hasErrors()) {
+            return "trade/update";
+        }
+
+        tradeService.update(id, trade);
         return "redirect:/trade/list";
     }
 
     @GetMapping("/trade/delete/{id}")
     public String deleteTrade(@PathVariable("id") Integer id, Model model) {
         tradeService.delete(id);
-        return "redirect:/trade/list";
+        return "trade/list";
     }
 }

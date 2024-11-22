@@ -1,7 +1,6 @@
 package org.poseidon.trading.domain;
 
 import jakarta.persistence.*;
-
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,6 +25,7 @@ public class User {
     private String password;
 
     @Column(name = "fullname", length = 125)
+    @NotBlank(message = "Full name is mandatory")
     private String fullname;
 
     @Column(name = "role", length = 125)

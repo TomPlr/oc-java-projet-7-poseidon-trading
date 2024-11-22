@@ -27,6 +27,6 @@ public class HomeControllerTest {
     @Test
     void adminHome_shouldReturnRedirectViewName() {
         String viewName = homeController.adminHome(model);
-        assertThat(viewName).isEqualTo("redirect:/bidList/list");
+        assertThat(viewName).isEqualTo("bidList/list");
     }
 }

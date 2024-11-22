@@ -2,6 +2,7 @@ package org.poseidon.trading.domain;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,18 +18,18 @@ public class Rating {
     private Integer id;
 
     @Column(name = "moodysRating", length = 125)
-    @NotNull
+    @NotBlank(message= "This field is mandatory")
     private String moodysRating;
 
     @Column(name = "sandPRating", length = 125)
-    @NotNull
+    @NotBlank(message= "This field is mandatory")
     private String sandPRating;
 
     @Column(name = "fitchRating", length = 125)
-    @NotNull
+    @NotBlank(message= "This field is mandatory")
     private String fitchRating;
 
     @Column(name = "orderNumber")
-    @NotNull
+    @NotNull(message="This field is mandatory")
     private Integer orderNumber;
 }

@@ -70,7 +70,7 @@ public class RatingControllerTest {
         Rating rating = new Rating();
         String viewName = ratingController.updateRating(id, rating, bindingResult, model);
         verify(ratingService).update(id, rating);
-        assertThat(viewName).isEqualTo("redirect:/rating/list");
+        assertThat(viewName).isEqualTo("rating/list");
     }
 
     @Test
@@ -78,6 +78,6 @@ public class RatingControllerTest {
         int id = 1;
         String viewName = ratingController.deleteRating(id, model);
         verify(ratingService).delete(id);
-        assertThat(viewName).isEqualTo("redirect:/rating/list");
+        assertThat(viewName).isEqualTo("rating/list");
     }
 }
