@@ -26,8 +26,9 @@ Poseidon Trading is a Java-based application designed to manage trading operatio
 ### Prerequisites
 
 Before you begin, ensure you have met the following requirements:
-- Java Development Kit (JDK) 11 or later
+- Java Development Kit (JDK) 17 or later
 - Maven
+- MySQL 8.0 or later
 - An Integrated Development Environment (IDE) such as IntelliJ IDEA or Eclipse
 
 ### Installation
@@ -44,13 +45,25 @@ Before you begin, ensure you have met the following requirements:
    ```sh
    mvn clean install
    
-4. **Run the application**:
+4. **Run SQL script in your database**:<br>
+
+   The file is located in _main/resources/static_
+   ```sh
+   source data.sql
+
+5. **Run the application**:
    ```sh
    mvn spring-boot:run
    
+   
 ## Usage
 
-Once the application is running, you can access the API endpoints to perform various operations. Below are some example endpoints:
+Once the application is running, you can access the API endpoints to perform various operations. <br>
+If you have executed the SQL script correctly, you should be able to connect using these preconfigured users:
+- `admin/admin` who has a ADMIN role.
+- `user/user` who has a USER role.
+
+Below are some example endpoints:
 
 - **User Management**:
   - `GET /users`: Retrieve all users.
@@ -107,3 +120,4 @@ Contributions are what make the open-source community such an amazing place to l
 ## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
+
