@@ -1,6 +1,7 @@
 package org.poseidon.trading.controller;
 
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.poseidon.trading.domain.Rating;
 import org.poseidon.trading.service.impl.RatingServiceImpl;
 import org.springframework.stereotype.Controller;
@@ -9,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@Slf4j
 public class RatingController {
 
     RatingServiceImpl ratingService;
@@ -30,8 +32,13 @@ public class RatingController {
 
     @PostMapping("/rating/validate")
     public String validate(@Valid @ModelAttribute("rating") Rating rating, BindingResult result, Model model) {
+
+        if (result.hasErrors()) {
+            return "rating/add";
+        }
+
         ratingService.add(rating);
-        return "rating/add";
+        return "redirect:/rating/list";
     }
 
     @GetMapping("/rating/update/{id}")
@@ -43,13 +50,16 @@ public class RatingController {
     @PostMapping("/rating/update/{id}")
     public String updateRating(@PathVariable("id") Integer id, @Valid @ModelAttribute("rating") Rating rating,
                                BindingResult result, Model model) {
-        ratingService.update(id, rating);
-        return "redirect:/rating/list";
+        if (!result.hasErrors()) {
+            ratingService.update(id, rating);
+            return "redirect:/rating/list";
+        }
+        return "rating/update";
     }
 
     @GetMapping("/rating/delete/{id}")
     public String deleteRating(@PathVariable("id") Integer id, Model model) {
         ratingService.delete(id);
-        return "redirect:/rating/list";
+        return "rating/list";
     }
 }

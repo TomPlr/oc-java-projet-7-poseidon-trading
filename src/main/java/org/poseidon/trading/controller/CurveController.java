@@ -2,6 +2,7 @@ package org.poseidon.trading.controller;
 
 
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.poseidon.trading.domain.CurvePoint;
 import org.poseidon.trading.service.impl.CurvePointServiceImpl;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @Controller
+@Slf4j
 public class CurveController {
 
     private final CurvePointServiceImpl curvePointService;
@@ -32,8 +34,13 @@ public class CurveController {
 
     @PostMapping("/curvePoint/validate")
     public String validate(@Valid @ModelAttribute("curvePoint") CurvePoint curvePoint, BindingResult result, Model model) {
+
+        if (result.hasErrors()) {
+            return "curvePoint/add";
+        }
+
         curvePointService.add(curvePoint);
-        return "curvePoint/add";
+        return "redirect:/curvePoint/list";
     }
 
     @GetMapping("/curvePoint/update/{id}")
@@ -45,15 +52,17 @@ public class CurveController {
     @PostMapping("/curvePoint/update/{id}")
     public String updateBid(@PathVariable("id") Integer id, @Valid @ModelAttribute("curvePoint") CurvePoint curvePoint,
                             BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "curvePoint/update";
+        }
 
         curvePointService.update(id, curvePoint);
-
         return "redirect:/curvePoint/list";
     }
 
     @GetMapping("/curvePoint/delete/{id}")
     public String deleteBid(@PathVariable("id") Integer id, Model model) {
         curvePointService.delete(id);
-        return "redirect:/curvePoint/list";
+        return "curvePoint/list";
     }
 }

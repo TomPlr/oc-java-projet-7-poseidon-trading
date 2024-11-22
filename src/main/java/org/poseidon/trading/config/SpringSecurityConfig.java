@@ -11,8 +11,6 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractAuthenticationFilterConfigurer;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -34,19 +32,21 @@ public class SpringSecurityConfig {
      * Configures the security filter chain.
      *
      * @param http the HttpSecurity object to configure
-     *
      * @return the configured SecurityFilterChain
      * @throws Exception if an error occurs during configuration
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http.authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/","/css/**").permitAll();
-                    auth.requestMatchers("/admin/**","/user/**").hasRole("ADMIN");
-                    auth.anyRequest().authenticated();
+        return http
+                .authorizeHttpRequests(auth -> {
+                    auth
+                            .requestMatchers("/", "/css/**").permitAll()
+                            .requestMatchers("/admin/**", "/user/**").hasRole("ADMIN")
+                            .anyRequest().authenticated();
                 })
                 .formLogin(formLogin -> formLogin.permitAll().defaultSuccessUrl("/trade/list"))
                 .logout(Customizer.withDefaults())
+
                 .exceptionHandling(exceptionHandling ->
                         exceptionHandling.accessDeniedHandler(accessDeniedHandler()))
                 .build();
@@ -65,9 +65,8 @@ public class SpringSecurityConfig {
     /**
      * Configures and provides an AuthenticationManager bean.
      *
-     * @param http the HttpSecurity object
+     * @param http                  the HttpSecurity object
      * @param bCryptPasswordEncoder the BCryptPasswordEncoder bean
-     *
      * @return the configured AuthenticationManager
      * @throws Exception if an error occurs during configuration
      */

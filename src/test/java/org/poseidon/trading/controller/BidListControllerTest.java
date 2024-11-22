@@ -14,7 +14,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class BidListControllerTest {
@@ -49,7 +50,7 @@ public class BidListControllerTest {
         BidList bidList = new BidList();
         String viewName = bidListController.validate(bidList, bindingResult);
         verify(bidListService).add(bidList);
-        assertThat(viewName).isEqualTo("redirect:/bidList/list");
+        assertThat(viewName).isEqualTo("bidList/list");
     }
 
     @Test
@@ -68,7 +69,7 @@ public class BidListControllerTest {
         BidList bidList = new BidList();
         String viewName = bidListController.updateBid(id, bidList, bindingResult);
         verify(bidListService).update(id, bidList);
-        assertThat(viewName).isEqualTo("redirect:/bidList/list");
+        assertThat(viewName).isEqualTo("bidList/list");
     }
 
     @Test
@@ -76,6 +77,6 @@ public class BidListControllerTest {
         int id = 1;
         String viewName = bidListController.deleteBid(id, model);
         verify(bidListService).delete(id);
-        assertThat(viewName).isEqualTo("redirect:/bidList/list");
+        assertThat(viewName).isEqualTo("bidList/list");
     }
 }

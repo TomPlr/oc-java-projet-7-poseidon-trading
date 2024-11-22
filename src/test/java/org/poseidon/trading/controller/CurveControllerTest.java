@@ -70,7 +70,7 @@ public class CurveControllerTest {
         CurvePoint curvePoint = new CurvePoint();
         String viewName = curveController.updateBid(id, curvePoint, bindingResult, model);
         verify(curvePointService).update(id, curvePoint);
-        assertThat(viewName).isEqualTo("redirect:/curvePoint/list");
+        assertThat(viewName).isEqualTo("curvePoint/list");
     }
 
     @Test
@@ -78,6 +78,6 @@ public class CurveControllerTest {
         int id = 1;
         String viewName = curveController.deleteBid(id, model);
         verify(curvePointService).delete(id);
-        assertThat(viewName).isEqualTo("redirect:/curvePoint/list");
+        assertThat(viewName).isEqualTo("curvePoint/list");
     }
 }
