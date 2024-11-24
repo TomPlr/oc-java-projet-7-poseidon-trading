@@ -50,7 +50,7 @@ public class BidListControllerTest {
         BidList bidList = new BidList();
         String viewName = bidListController.validate(bidList, bindingResult);
         verify(bidListService).add(bidList);
-        assertThat(viewName).isEqualTo("bidList/list");
+        assertThat(viewName).isEqualTo("redirect:/bidList/list");
     }
 
     @Test
@@ -69,7 +69,7 @@ public class BidListControllerTest {
         BidList bidList = new BidList();
         String viewName = bidListController.updateBid(id, bidList, bindingResult);
         verify(bidListService).update(id, bidList);
-        assertThat(viewName).isEqualTo("bidList/list");
+        assertThat(viewName).isEqualTo("redirect:/bidList/list");
     }
 
     @Test

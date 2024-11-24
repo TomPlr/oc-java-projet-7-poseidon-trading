@@ -51,7 +51,7 @@ public class RuleNameControllerTest {
         RuleName ruleName = new RuleName();
         String viewName = ruleNameController.validate(ruleName, bindingResult, model);
         verify(ruleNameService).add(ruleName);
-        assertThat(viewName).isEqualTo("ruleName/add");
+        assertThat(viewName).isEqualTo("redirect:/ruleName/list");
     }
 
     @Test
@@ -70,7 +70,7 @@ public class RuleNameControllerTest {
         RuleName ruleName = new RuleName();
         String viewName = ruleNameController.updateRuleName(id, ruleName, bindingResult, model);
         verify(ruleNameService).update(id, ruleName);
-        assertThat(viewName).isEqualTo("ruleName/list");
+        assertThat(viewName).isEqualTo("redirect:/ruleName/list");
     }
 
     @Test

@@ -17,7 +17,12 @@ public class LoginController {
         this.userRepository = userRepository;
     }
 
-
+    @GetMapping("login")
+    public ModelAndView login() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("login");
+        return mav;
+    }
 
     @GetMapping("secure/article-details")
     public ModelAndView getAllUserArticles() {
