@@ -41,17 +41,24 @@ Before you begin, ensure you have met the following requirements:
    ```sh
    cd oc-java-projet-7-poseidon-trading
    
-3. **Build the project**:
+3. **Add application properties**:
+   ```sh
+   spring.datasource.username=YOUR_DB_USERNAME
+   spring.datasource.password=YOUR_DB_PASSWORD
+   spring.datasource.url=jdbc:mysql://localhost:XXXX/YOUR_DB_NAME
+   spring.jpa.hibernate.naming.physical-strategy=org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl   
+   
+4. **Build the project**:
    ```sh
    mvn clean install
    
-4. **Run SQL script in your database**:<br>
+5. **Run SQL script in your database**:<br>
 
    The file is located in _main/resources/static_
    ```sh
    source data.sql
 
-5. **Run the application**:
+6. **Run the application**:
    ```sh
    mvn spring-boot:run
    
